@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Event Listener Example</title>
+</head>
+<body>
+    <input type="text" id="Link" name="Link" class="form-control" placeholder="Enter a link...">
+    <p id="message"></p>
+
+    <script>
+        // Get the input field element
+        var linkInput = document.getElementById("Link");
+
+        // Add an event listener for the 'keydown' event
+        linkInput.addEventListener("keydown", function(event) {
+            // Check if the pressed key is the Enter key (key code 13)
+            if (event.keyCode === 13) {
+                // Get the current value of the input field
+                var inputValue = event.target.value;
+
+                // Display the value in a paragraph element
+                var messageElement = document.getElementById("message");
+                messageElement.textContent = "Enter key pressed. Current value: " + inputValue;
+            }
+        });
+    </script>
+</body>
+</html>

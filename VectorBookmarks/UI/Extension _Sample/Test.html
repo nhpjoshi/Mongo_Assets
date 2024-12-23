@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Communication</title>
+</head>
+<body>
+    <label for="inputField">Input:</label>
+    <input type="text" id="inputField">
+    <br><br>
+    <label for="outputField">Output:</label>
+    <textarea id="outputField" rows="4" cols="50"></textarea>
+
+    <script>
+        // Trigger sendRequest() when Enter key is pressed in the input field
+        document.getElementById("inputField").addEventListener("keypress", function(event) {
+            if (event.key === 'Enter') {
+                sendRequest();
+            }
+        });
+
+        // Trigger sendRequest() when the button is clicked
+        document.addEventListener("click", function(event) {
+            if (event.target && event.target.dataset.action === "sendRequest") {
+                sendRequest();
+            }
+        });
+
+        function sendRequest() {
+            var inputValue = document.getElementById("inputField").value;
+
+            fetch('http://localhost:3000/getText', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: inputValue }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                populateLetterByLetter(data.description);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("outputField").value = 'Error occurred while processing request';
+            });
+        }
+
+        function populateLetterByLetter(text) {
+            var index = 0;
+            var interval = setInterval(function() {
+                if (index < text.length) {
+                    document.getElementById("outputField").value += text[index];
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 20); // Adjust the delay between letters (in milliseconds) as needed
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{
+    "mappings": {
+      "dynamic": false,
+      "fields": {
+        "_id": {
+          "type": "token"
+        },
+        "brand_filter": {
+          "fields": {
+            "brand_facet": {
+              "type": "stringFacet"
+            },
+            "key": {
+              "analyzer": "keywordLower",
+              "searchAnalyzer": "keywordLower",
+              "type": "string"
+            }
+          },
+          "type": "document"
+        },
+        "category": {
+          "fields": {
+            "level1": {
+              "fields": {
+                "category_facet": {
+                  "type": "stringFacet"
+                }
+              },
+              "type": "document"
+            },
+            "level2": {
+              "fields": {
+                "category_facet": {
+                  "type": "stringFacet"
+                }
+              },
+              "type": "document"
+            },
+            "level3": {
+              "fields": {
+                "category_facet": {
+                  "type": "stringFacet"
+                }
+              },
+              "type": "document"
+            }
+          },
+          "type": "document"
+        },
+        "cids": {
+          "type": "number"
+        },
+        "created": {
+          "representation": "int64",
+          "type": "number"
+        },
+        "customer_rating": {
+          "type": "number"
+        },
+        "entity_id": {
+          "representation": "int64",
+          "type": "number"
+        },
+        "filter_data": [
+          {
+            "fields": {
+              "filter_facet": {
+                "type": "stringFacet"
+              }
+            },
+            "type": "document"
+          },
+          {
+            "fields": {
+              "filter_id": {
+                "representation": "int64",
+                "type": "number"
+              },
+              "filter_text": [
+                {
+                  "analyzer": "lucene.keyword",
+                  "searchAnalyzer": "lucene.keyword",
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "type": "embeddedDocuments"
+          }
+        ],
+        "is_all_restricted": {
+          "indexDoubles": false,
+          "representation": "int64",
+          "type": "number"
+        },
+        "is_detail_updated": {
+          "representation": "int64",
+          "type": "number"
+        },
+        "is_in_stock": {
+          "indexDoubles": false,
+          "representation": "int64",
+          "type": "number"
+        },
+        "is_prime": {
+          "representation": "int64",
+          "type": "number"
+        },
+        "keywords": {
+          "type": "string"
+        },
+        "restricted_website_ids": {
+          "representation": "int64",
+          "type": "number"
+        },
+        "ubuy_original_price": {
+          "type": "number"
+        },
+        "ubuy_price": {
+          "type": "number"
+        },
+        "ubuy_sku": {
+          "type": "string"
+        },
+        "ubuy_store": {
+          "type": "string"
+        },
+        "ubuy_substore": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "number"
+        }
+      }
+    },
+    "analyzers": [
+      {
+        "charFilters": [],
+        "name": "keywordLower",
+        "tokenFilters": [
+          {
+            "type": "lowercase"
+          },
+          {
+            "type": "trim"
+          }
+        ],
+        "tokenizer": {
+          "type": "keyword"
+        }
+      }
+    ],
+    "storedSource": {
+      "include": [
+        "product_title",
+        "brand_filter",
+        "category",
+        "ubuy_original_price",
+        "entity_id",
+        "ubuy_substore",
+        "product_image",
+        "is_price_range",
+        "is_prime",
+        "ubuy_store",
+        "best_seller",
+        "stock_text",
+        "slug",
+        "is_addon_item",
+        "ubuy_sku",
+        "price",
+        "delivery_days",
+        "rating_count",
+        "customer_rating",
+        "ubuy_price",
+        "_id"
+      ]
+    }
+  }
