@@ -8,7 +8,7 @@ function getCredentials() {
   
   const credentials = {
     // Mongo Paths + URI
-    MONGODB_URI: "mongodb+srv://AdminCluster:admin@testcluster.n2msm.mongodb.net",
+    MONGODB_URI: "mongodb+srv://<>:<>@testcluster.n2msm.mongodb.net",
     
   };
   
