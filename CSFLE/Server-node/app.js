@@ -4,7 +4,7 @@ const mongoclient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 async function connectDB(dbname , collectionname){
-    const client = await mongoclient.connect('mongodb+srv://AdminCluster:admin@edge.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Edge');
+    const client = await mongoclient.connect('mongodb+srv://<>:<>@edge.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Edge');
     const db= client.db(dbname);
     const collection = db.collection(collectionname);
     return collection;
