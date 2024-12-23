@@ -7,7 +7,7 @@ const { ok } = require('assert');
 //const path1 = require('path'); // Require the path module
 
 const app = express();
-const mongoUri = "mongodb+srv://AdminCluster:admin@edge.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Edge";
+const mongoUri = "mongodb+srv://<>:<>@edge.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Edge";
 const port = 3000;
 app.use(express.static('Front-end'));
 app.use(cors());
