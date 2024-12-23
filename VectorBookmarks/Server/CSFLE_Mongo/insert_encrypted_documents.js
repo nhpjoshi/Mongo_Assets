@@ -20,7 +20,7 @@ const kmsProviders = {
 // end-kmsproviders
 
 const connectionString =
-  "mongodb+srv://AdminCluster:admin@testcluster.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=TestCluster";
+  "mongodb+srv://<>:<>@testcluster.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=TestCluster";
 
 console.log(connectionString);
 // start-key-vault
