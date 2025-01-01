@@ -6,7 +6,7 @@ const app = express();
 const GenAIIP = "192.168.1.5";
 
 const mongoUri =
-  "mongodb+srv://AdminCluster:admin@cluster0.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://<>:<>@cluster0.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const port = 3000;
 app.use(cors());
 app.use(express.json());
