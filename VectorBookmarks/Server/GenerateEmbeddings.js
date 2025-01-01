@@ -3,9 +3,10 @@ const axios = require("axios");
 const { MongoClient, Binary } = require("mongodb");
 const cors = require("cors");
 const app = express();
+const GenAIIP = "192.168.1.5";
 
-const mongoUri = <>
-  
+const mongoUri =
+  "mongodb+srv://AdminCluster:admin@cluster0.n2msm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const port = 3000;
 app.use(cors());
 app.use(express.json());
@@ -14,57 +15,57 @@ var db1 = "Aisurance";
 var coll = "BMSearch";
 var namespace = `${db}.${coll}`;
 const keyVaultNamespace = "encryption.__keyVault";
-const extraOptions = {
-  cryptSharedLibRequired: true,
-  cryptSharedLibPath:
-    "/Users/Shared/mongo_crypt_shared/lib/mongo_crypt_v1.dylib",
-};
+// const extraOptions = {
+//   cryptSharedLibRequired: true,
+//   cryptSharedLibPath:
+//     "/Users/Shared/mongo_crypt_shared/lib/mongo_crypt_v1.dylib",
+// };
 
-dataKey = "HUiUsexIRBKjoxd9bgxoYQ==";
-const fs = require("fs");
-const provider = "local";
-const path = "./master-key.txt";
-const localMasterKey = fs.readFileSync(path);
-const kmsProviders = {
-  local: {
-    key: localMasterKey,
-  },
-};
+// dataKey = "HUiUsexIRBKjoxd9bgxoYQ==";
+// const fs = require("fs");
+// const provider = "local";
+// const path = "./master-key.txt";
+// const localMasterKey = fs.readFileSync(path);
+// const kmsProviders = {
+//   local: {
+//     key: localMasterKey,
+//   },
+// };
 
-const schema = {
-  bsonType: "object",
-  encryptMetadata: {
-    keyId: [new Binary(Buffer.from(dataKey, "base64"), 4)],
-  },
-  // properties: {
-  //   Link: {
-  //     encrypt: {
-  //       bsonType: "string",
-  //       algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
-  //     },
-  //   },
-  //   Description: {
-  //     encrypt: {
-  //       bsonType: "string",
-  //       algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
-  //     },
-  //   },
-  // },
-};
+// const schema = {
+//   bsonType: "object",
+//   encryptMetadata: {
+//     keyId: [new Binary(Buffer.from(dataKey, "base64"), 4)],
+//   },
+//   // properties: {
+//   //   Link: {
+//   //     encrypt: {
+//   //       bsonType: "string",
+//   //       algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+//   //     },
+//   //   },
+//   //   Description: {
+//   //     encrypt: {
+//   //       bsonType: "string",
+//   //       algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+//   //     },
+//   //   },
+//   // },
+// };
 
-var bookmarkschema = {};
-bookmarkschema[namespace] = schema;
+// var bookmarkschema = {};
+// bookmarkschema[namespace] = schema;
 
-const secureClient = new MongoClient(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  autoEncryption: {
-    keyVaultNamespace,
-    kmsProviders,
-    schemaMap: bookmarkschema,
-    extraOptions: extraOptions,
-  },
-});
+// const secureClient = new MongoClient(mongoUri, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   autoEncryption: {
+//     keyVaultNamespace,
+//     kmsProviders,
+//     schemaMap: bookmarkschema,
+//     extraOptions: extraOptions,
+//   },
+// });
 
 const regularClient = new MongoClient(mongoUri, {
   useNewUrlParser: true,
@@ -76,15 +77,15 @@ const regularClient = new MongoClient(mongoUri, {
 // start-schema
 
 // API URL
-const apiUrl = "http://localhost:11434/api/embeddings";
-const textURL = "http://localhost:11434/api/generate";
+const apiUrl = "http://host.docker.internal:11434/api/embeddings";
+const textURL = "http://host.docker.internal:11434/api/generate";
 // const mongoUri =
 //   "mongodb+srv://AdminCluster:admin@testcluster.n2msm.mongodb.net/";
 
 async function getEmbedding(query) {
   console.log("Query:", query);
   // Define the OpenAI API url and key.
-  const url = "http://localhost:11434/api/embeddings";
+  const url = "http://host.docker.internal:11434/api/embeddings";
   const postData = {
     model: "mxbai-embed-large",
     prompt: query,
@@ -97,8 +98,8 @@ async function getEmbedding(query) {
 async function findSimilarDocuments(embedding) {
   // Replace with your MongoDB url.
   try {
-    await secureClient.connect();
-    const db = secureClient.db("BookMarkSS"); // Replace with your database name.
+    await regularClient.connect();
+    const db = regularClient.db("BookMarkSS"); // Replace with your database name.
     const collection = db.collection("BMSearch"); // Replace with your collection name.
     // Query for similar documents.
     const documents = await collection
@@ -151,24 +152,18 @@ app.post("/processData", async (req, res) => {
     try {
       await regularClient.connect();
       try {
-        await secureClient.connect();
-        // start-insert
-        try {
-          await regularClient.connect();
-          const writeResult = await regularClient
-            .db(db)
-            .collection(coll)
-            .insertOne(combinedData);
-        } catch (writeError) {
-          console.error("writeError occurred:", writeError);
-        }
-        // end-insert
-        // start-find
-        res.status(200).send("Data processed and inserted into MongoDB");
-        // end-find
-      } finally {
-        await secureClient.close();
+        await regularClient.connect();
+        const writeResult = await regularClient
+          .db(db)
+          .collection(coll)
+          .insertOne(combinedData);
+      } catch (writeError) {
+        console.error("writeError occurred:", writeError);
       }
+      // end-insert
+      // start-find
+      res.status(200).send("Data processed and inserted into MongoDB");
+      // end-find
     } finally {
       await regularClient.close();
     }
@@ -186,9 +181,6 @@ app.post("/processData", async (req, res) => {
 
     // // Send response
     // res.status(200).send("Data processed and inserted into MongoDB");
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal Server Error");
   } finally {
     // Close MongoDB connection
     await mongoClient.close();
@@ -261,6 +253,6 @@ app.post("/api/save-input", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server running at http://localhost:${port}`);
 });
