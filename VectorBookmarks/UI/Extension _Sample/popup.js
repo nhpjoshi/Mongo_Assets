@@ -226,26 +226,26 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Get the active tab's URL
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tab && tab.url) {
-    // Set the URL into the "Link" input field
     const linkInput = document.getElementById("Link");
     if (linkInput) {
       linkInput.value = tab.url; // Populate the URL
     }
 
-    // Copy the URL to the clipboard
-    navigator.clipboard
-      .writeText(tab.url)
-      .then(() => {
-        console.log("URL copied to clipboard!");
-      })
-      .catch((err) => {
-        console.error("Failed to copy URL: ", err);
+    // Add click listener to copy URL button
+    const copyButton = document.getElementById("copyURLButton");
+    if (copyButton) {
+      copyButton.addEventListener("click", function () {
+        navigator.clipboard
+          .writeText(tab.url)
+          .then(() => {
+            alert("URL copied to clipboard!");
+          })
+          .catch((err) => {
+            console.error("Failed to copy URL: ", err);
+          });
       });
+    }
   } else {
     console.error("No active tab found or URL is unavailable.");
   }
 });
-
-// Add event listeners for existing functionalities
-document.getElementById("submitData").addEventListener("click", postData);
-document.getElementById("searchButton").addEventListener("click", getData);
