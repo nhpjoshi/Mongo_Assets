@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const linkInput = document.getElementById("Link");
     if (linkInput) {
       linkInput.value = tab.url; // Populate the URL
+      sendRequest();
     }
 
     // Add click listener to copy URL button
