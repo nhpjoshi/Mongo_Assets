@@ -1,0 +1,12 @@
+/* src/component/TextArea.css */
+.invisible-textarea {
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+    resize: none;
+    width: 100%;               /* Set to fill container width */
+    padding: 12px;
+    height: 700px;             /* Set height to a larger value */
+  }
+  
