@@ -208,15 +208,15 @@ function PromptInput() {
     <div
       style={{ textAlign: "center", marginTop: "20px", position: "relative" }}
     >
-      <h1>Alsurance - Own Your Prompts</h1>
+      <h1>AI-Unlimited</h1>
 
       {/* Link to Conversation History */}
-      <Link
+      {/* <Link
         to="/conversations"
         style={{ position: "absolute", top: "10px", right: "20px" }}
       >
         <button className="btn btn-primary">View Conversation History</button>
-      </Link>
+      </Link> */}
 
       <TextArea
         value={`${conversation}${isTyping ? `\nAI: ${aiResponse}` : ""}`}
@@ -244,12 +244,12 @@ function PromptInput() {
         onChange={handleInputChange}
         onEnter={handleSendMessage}
       />
-      <button
+      {/* <button
         className="btn btn-secondary mt-3"
         onClick={handleSaveConversation}
       >
         Own Your Creation
-      </button>
+      </button> */}
     </div>
   );
 }

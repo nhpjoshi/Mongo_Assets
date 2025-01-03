@@ -12,7 +12,7 @@ const rl = readline.createInterface({
 let conversationHistory = "";
 
 // Connect to the WebSocket server
-const ws = new WebSocket("ws://localhost:4000");
+const ws = new WebSocket("ws://192.168.65.254:4000");
 
 ws.onopen = () => {
   console.log("Connected to WebSocket server");

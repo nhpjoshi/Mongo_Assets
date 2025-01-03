@@ -16,11 +16,14 @@ wss.on("connection", (ws) => {
       const { model, prompt, stream } = requestData;
 
       // Send request to Llama's API with model, prompt, and stream
-      const response = await axios.post("http://localhost:11434/api/generate", {
-        model: model || "llama3:8b", // default model if not specified
-        prompt: prompt,
-        stream: stream || false, // default stream to false if not specified
-      });
+      const response = await axios.post(
+        "http://host.docker.internal:11434/api/generate",
+        {
+          model: model || "llama3:8b", // default model if not specified
+          prompt: prompt,
+          stream: stream || false, // default stream to false if not specified
+        }
+      );
 
       // Send the Llama response back to the WebSocket client
       ws.send(JSON.stringify(response.data));
@@ -36,4 +39,4 @@ wss.on("connection", (ws) => {
   });
 });
 
-console.log("WebSocket server is running on ws://localhost:3000");
+console.log("WebSocket server is running on ws://localhost:4000");
